@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>nz.ac.auckland.groupapps.parent</groupId>
+		<artifactId>parent-groovy-groupapps-central</artifactId>
+		<version>1.4</version>
+	</parent>
+
+	<groupId>nz.ac.auckland.syllabus</groupId>
+	<artifactId>syllabus-http</artifactId>
+	<version>1.18-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>Syllabus - HTTP</name>
+
+	<description>
+		HTTP implementation for Syllabus Core
+	</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>nz.ac.auckland.groupapps.javascript</groupId>
+			<artifactId>javascript-resources</artifactId>
+			<version>[1.1,2)</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nz.ac.auckland.syllabus</groupId>
+			<artifactId>syllabus-core</artifactId>
+			<version>[1.18,2)</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nz.ac.auckland.composite</groupId>
+			<artifactId>composite-servlet</artifactId>
+			<version>[1.2,)</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nz.ac.auckland.composite</groupId>
+			<artifactId>composite-spring-web</artifactId>
+			<version>[5.3,)</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nz.ac.auckland.composite</groupId>
+			<artifactId>composite-logging-deploy</artifactId>
+			<version>[3.4,4)</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>nz.ac.auckland.composite</groupId>
+			<artifactId>composite-spring-test</artifactId>
+			<version>[5.3,)</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
