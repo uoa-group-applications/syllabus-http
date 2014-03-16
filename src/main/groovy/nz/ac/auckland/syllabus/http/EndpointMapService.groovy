@@ -7,6 +7,7 @@ import nz.ac.auckland.common.config.ConfigKey
 import nz.ac.auckland.common.jsresource.ApplicationResource
 import nz.ac.auckland.common.jsresource.ResourceScope
 import nz.ac.auckland.common.stereotypes.UniversityComponent
+import nz.ac.auckland.lmz.common.AppVersion
 import nz.ac.auckland.syllabus.events.EventHandlerCollection
 import nz.ac.auckland.syllabus.events.EventHandler
 import nz.ac.auckland.util.JacksonHelper
@@ -40,13 +41,12 @@ class EndpointMapService implements ApplicationResource {
 	 */
 	private String jsonEndpoints;
 
-	/**
-	 * @see nz.ac.auckland.common.config.JarManifestConfigurationSource#KEY_IMPLEMENTATION_VERSION
-	 */
-	@ConfigKey("Implementation-Version")
-	protected String version = 'unknown';
 
-	@Configured
+	@Inject
+	AppVersion appVersion
+
+	@net.stickycode.stereotype.configured.Configured
+	// force @postconfigured
 	String meh = "meh.";
 
 	/**
@@ -76,7 +76,7 @@ class EndpointMapService implements ApplicationResource {
 					endpoints[namespace] = [:]
 				}
 
-				endpoints[namespace][eventName] = String.format("%s/api/%s/%s/%s", this.contextPath, version, namespace, eventName)
+				endpoints[namespace][eventName] = String.format("%s/api/%s/%s/%s", this.contextPath, appVersion.version, namespace, eventName)
 			}
 		}
 
