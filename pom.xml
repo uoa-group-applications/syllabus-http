@@ -10,7 +10,7 @@
 
 	<groupId>nz.ac.auckland.syllabus</groupId>
 	<artifactId>syllabus-http</artifactId>
-	<version>1.19-SNAPSHOT</version>
+	<version>1.19</version>
 	<packaging>jar</packaging>
 	<name>Syllabus - HTTP</name>
 
@@ -58,4 +58,8 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+  <scm>
+    <tag>syllabus-http-1.19</tag>
+  </scm>
 </project>
