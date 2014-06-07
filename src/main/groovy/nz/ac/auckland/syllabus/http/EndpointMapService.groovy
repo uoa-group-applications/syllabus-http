@@ -1,18 +1,14 @@
 package nz.ac.auckland.syllabus.http
 
 import groovy.transform.CompileStatic
-import net.stickycode.stereotype.Configured
 import net.stickycode.stereotype.configured.PostConfigured
-import nz.ac.auckland.common.config.ConfigKey
 import nz.ac.auckland.common.jsresource.ApplicationResource
 import nz.ac.auckland.common.jsresource.ResourceScope
 import nz.ac.auckland.common.stereotypes.UniversityComponent
 import nz.ac.auckland.lmz.common.AppVersion
 import nz.ac.auckland.syllabus.events.EventHandlerCollection
-import nz.ac.auckland.syllabus.events.EventHandler
-import nz.ac.auckland.util.JacksonHelper
+import nz.ac.auckland.syllabus.generator.EventHandlerConfig
 
-import javax.annotation.PostConstruct
 import javax.inject.Inject
 
 /**
@@ -45,10 +41,6 @@ class EndpointMapService implements ApplicationResource {
 	@Inject
 	AppVersion appVersion
 
-	@net.stickycode.stereotype.configured.Configured
-	// force @postconfigured
-	String meh = "meh.";
-
 	/**
 	 * Endpoints
 	 */
@@ -59,27 +51,13 @@ class EndpointMapService implements ApplicationResource {
 	 */
 	@PostConfigured
 	public void createEndpointMap() {
-
-		// get all events
-		Map<String, Map<String, EventHandler>> nsEventMap = eventCollection.eventMap
-
 		// endpoints map
-		endpoints = [:];
+		endpoints = [:].withDefault { key -> return [:]}
 
-		// iterate through namespaces
-		nsEventMap?.each { String namespace, Map<String, EventHandler> eventMap ->
-
-			// iterate through event names
-			eventMap?.each { String eventName, EventHandler eventHandler ->
-
-				if (!endpoints[namespace]) {
-					endpoints[namespace] = [:]
-				}
-
-				endpoints[namespace][eventName] = String.format("%s/api/%s/%s/%s", this.contextPath, appVersion.version, namespace, eventName)
-			}
+		eventCollection.findAll().each { EventHandlerConfig handlerConfig ->
+			endpoints[handlerConfig.namespace][handlerConfig.name] =
+				String.format("%s/api/%s/%s/%s", this.contextPath, appVersion.version, handlerConfig.namespace, handlerConfig.name)
 		}
-
 	}
 
 	/**

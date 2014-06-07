@@ -1,22 +1,18 @@
 package nz.ac.auckland.syllabus.http
 
+import groovy.transform.CompileStatic
+import nz.ac.auckland.syllabus.SyllabusContext
 import nz.ac.auckland.syllabus.hooks.BeforeEvent
 import nz.ac.auckland.syllabus.hooks.EventHook
-import nz.ac.auckland.syllabus.events.EventHandler
 import nz.ac.auckland.syllabus.hooks.EventHookException
-import javax.inject.Inject
-import javax.servlet.http.HttpServletRequest
-import org.slf4j.LoggerFactory
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
- * User: marnix
- * Date: 3/04/13
- * Time: 2:47 PM
- *
  * Referrer logger event hook implementation logs the X-Angular-Referer header
  */
 @BeforeEvent
+@CompileStatic
 class ReferrerLoggerEventHook implements EventHook {
 
 	/**
@@ -30,12 +26,6 @@ class ReferrerLoggerEventHook implements EventHook {
 	private static final String ANGULAR_REFERER_HEADER = "X-Angular-Referer"
 
 	/**
-	 * Http context service injected here
-	 */
-	@Inject
-	private HttpContextService httpContextService;
-
-	/**
 	 * Logs the angular referer header
 	 *
 	 * @param event is the event handler that is about to be invoked
@@ -43,14 +33,15 @@ class ReferrerLoggerEventHook implements EventHook {
 	 * @throws EventHookException
 	 */
 	@Override
-	public void executeHook(EventHandler event) throws EventHookException {
+	void executeHook(SyllabusContext context) throws EventHookException {
+		if (context instanceof HttpSyllabusContext) {
+			HttpSyllabusContext hContext = context as HttpSyllabusContext
 
-		HttpServletRequest request = httpContextService.request
-		String referrer = request?.getHeader(ANGULAR_REFERER_HEADER)
+			String referrer = hContext.request.getHeader(ANGULAR_REFERER_HEADER)
 
-		if (referrer) {
-			LOG.info("API request started from frontend at $referrer")
+			if (referrer) {
+				LOG.info("API request started from frontend at $referrer")
+			}
 		}
-
 	}
 }
