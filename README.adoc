@@ -15,6 +15,19 @@ Otherwise you need to inject the service as you would any other Univeristy Sprin
 This should really only be necessary for setting response status codes, content types, or header information. Ideally,
 it shouldn't be necessary, and it makes your code less portable.
 
+== CORS
+
+To make your endpoint callable from any domain prefix the class declaration's `@Event` annotation with the `@Public` annotation, like so:
+
+[source,java]
+	
+	@Public @Event(namespace = "doc", name="allTheThings")
+	public class MyEventHandlerImplementation {
+
+		// ..
+
+	}
+
 == Future Development
 
 There are a number of things that should be taken into account when using this library, and areas of improvement that
