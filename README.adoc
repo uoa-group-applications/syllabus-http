@@ -23,9 +23,6 @@ To make your endpoint callable from any domain prefix the class declaration's `@
 	
 	@Public @Event(namespace = "doc", name="allTheThings")
 	public class MyEventHandlerImplementation {
-		
-		// ..
-		
 	}
 
 == Future Development
