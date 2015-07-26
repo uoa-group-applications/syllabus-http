@@ -82,6 +82,10 @@ class SyllabusServlet extends HttpServlet {
 
 			// try to output response - should support JSONP here as well
 			try {
+				if (isPublicEndpoint(context.currentHandle?.instance)) {
+					response.setHeader("Access-Control-Allow-Origin", "*");
+				}
+
 				if (responseObject instanceof String && contentType == "text/plain") {
 					response.setHeader("Content-Type", "text/plain; charset=UTF-8");
 					response.writer.print(responseObject.toString())
@@ -109,6 +113,13 @@ class SyllabusServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * @return true if the current handle's instance has a Public annotation on it
+	 */
+	protected boolean isPublicEndpoint(Object instance) {
+		return instance?.getClass()?.getAnnotation(Public) != null;
+	}
+
 	protected void writeException(HttpServletResponse response, int status, String message) {
 		response.setStatus(status)
 		response.writer.write(message)
@@ -119,7 +130,8 @@ class SyllabusServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response)
 	}
-/**
+
+	/**
 	 * Get the request information instance to extract request information from
 	 *
 	 * @param request is the request info to set it up for
