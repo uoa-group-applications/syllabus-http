@@ -75,7 +75,8 @@ class SyllabusServlet extends HttpServlet {
 
 			if (responseObject == null) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST)
-				response.writer.write("{error:'Bad content type or no response from handler'}")
+				response.setHeader("Content-Type", "application/json; charset=UTF-8");
+				response.writer.write('{ "error" : "Bad content type or no response from handler" }')
 				response.writer.flush()
 				return
 			}
