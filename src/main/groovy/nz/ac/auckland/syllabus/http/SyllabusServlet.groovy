@@ -102,6 +102,8 @@ class SyllabusServlet extends HttpServlet {
 			}
 		}
 		catch (TransmissionException transEx) {
+			log.error("Transmission exception caught: ", transEx);
+
 			// write HTTP error status
 			writeException(response, transEx.statusCode, transEx.message)
 		}
@@ -110,6 +112,10 @@ class SyllabusServlet extends HttpServlet {
 			if (ehEx.statusCode > 0) {
 				writeException(response, ehEx.statusCode, ehEx.message)
 			}
+		}
+		catch (Exception ex) {
+			log.error("Unhandled exception caught, caused by: ", ex);
+			writeException(response, 502, ex.message)
 		}
 	}
 
